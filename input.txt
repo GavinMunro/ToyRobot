@@ -1,0 +1,50 @@
+MOVE
+REPORT
+LEFT
+RIGHT
+#should ignore all until placed
+REPORT
+PLACE 0,6,N
+REPORT
+PLACE 0,0,N
+REPORT
+
+PLACE 1,1,E
+REPORT
+PLACE 5,5,E
+REPORT
+MOVE
+#should ignore move off board
+REPORT
+
+LEFT
+MOVE
+#should ignore move off board
+REPORT
+
+RIGHT
+RIGHT
+#should now be facing South
+MOVE
+REPORT
+
+RIGHT
+MOVE
+MOVE
+MOVE
+MOVE
+REPORT
+MOVE
+#should ignore move off board
+REPORT
+#should be (1, 4, 'W')
+
+LEFT
+MOVE
+MOVE
+MOVE
+MOVE
+#should still be on board
+#should be (1, 1, S)
+REPORT
+
