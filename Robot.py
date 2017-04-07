@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #Title           :ToyRobot.py
-#Author          :Gavin Munro
+#Author          :Gavin A.I. Munro
 #Date            :5/3/14
 #Version         :0.2
 
@@ -29,11 +29,12 @@ class Robot:
         return 1 <= self.x <= 5 and 1 <= self.y <= 5
 
     def place(self, x, y, f):
-        if self.on_table and f in ['N', 'S', 'E', 'W']:
+        if 1 <= x <= 5 and 1 <= y <= 5 and f in ['N', 'S', 'E', 'W']:
             self.x = x
             self.y = y
             self.f = f
-        else: return False  # Explicit is better than implicit.
+        else:
+            return False  # Explicit is better than implicit.
 
     def move(self):  # always moves only one step forward
         if self.on_table:
@@ -42,9 +43,9 @@ class Robot:
             elif self.f == 'S':
                 self.place(self.x, self.y-1, self.f)
             elif self.f == 'E':
-                self.place(self.x, self.x+11, self.f)
+                self.place(self.x+1, self.y, self.f)
             elif self.f == 'W':
-                self.place(self.x, self.x-1, self.f)
+                self.place(self.x-1, self.y, self.f)
 
     def right(self):
         if self.on_table:
@@ -58,12 +59,12 @@ class Robot:
 
     def report(self):
         if self.on_table:
-            print "Location: ", "(", self.x, ", ", self.y, ")", "\n"
-            print "Direction: ", "facing ", self.f, "\n"
-            print "\n"
-        else print "not on table"
+            print "Location: ", "(", self.x, ", ", self.y, ")"
+            print "Direction: ", "facing ", self.f
+        else:
+            print "not on table"
 
-    def drive(self):
+    def drive(self, infile="input.txt"):
         """
         "Drive" the robot using input from a file of commands in
         file input.txt in the current directory.
@@ -74,20 +75,20 @@ class Robot:
         RIGHT
         REPORT
         """
-        with open("input.txt") as file1:
+        with open(infile) as file1:
             cmd_list = file1.readlines()
             for line in cmd_list:
-                if line.strip() != "":
+                if line.strip() != '' and line.strip()[0] != '#':
                     cmd = line.split()
-                    if cmd.len() == 2:
+                    if len(cmd) == 2:
                         if cmd[0] != 'PLACE':
-                           print "Invalid Command"
-                        params = cmd.split(',')
-                        x = params[0]
-                        y = params[1]
+                            print "Invalid Command"
+                        params = cmd[1].split(',')
+                        x = int(params[0])
+                        y = int(params[1])
                         f = params[2]
                         self.place(x, y, f)
-                    elif cmd.len() == 1:
+                    elif len(cmd) == 1:
                         if cmd[0] == 'MOVE':
                             self.move()
                         elif cmd[0] == 'LEFT':
@@ -99,4 +100,7 @@ class Robot:
                         else:
                             print "Invalid command"
             print "End Of File"
-# End program.
+
+if __name__ == "__main__":
+    iRobot = Robot()
+    iRobot.drive()
